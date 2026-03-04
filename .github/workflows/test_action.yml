@@ -1,5 +1,3 @@
-{# when push code to repo, something happens #}
-
 name: Check Branch Name
 on: [push]
 
