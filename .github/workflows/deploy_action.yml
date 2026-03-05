@@ -1,0 +1,50 @@
+name: Deploy to Server
+on:
+  push:
+    branches: ['main', 'test']
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ 
+      github.ref_name == 'main' && 'prod' ||
+      github.ref_name == 'test' && 'beta' ||
+      github.ref_name == 'cloud' && 'cloud' ||
+      'default'
+    }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Deploy to ${{ github.ref_name }}
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        port: ${{ vars.SSH_PORT }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /opt/myapp
+          git pull origin ${{ github.ref_name }}
+          
+          # uv
+          if ! command -v uv &> /dev/null; then
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+            . $HOME/.cargo/env
+          fi
+          uv sync
+          
+          # nginx
+          sudo cp nginx.conf /etc/nginx/sites-available/myapp
+          sudo ln -sf /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+          sudo rm -f /etc/nginx/sites-enabled/default
+          sudo nginx -t && sudo systemctl reload nginx
+          
+          # services
+          sudo cp service_files/*.service /etc/systemd/system/
+          sudo systemctl daemon-reload
+          sudo systemctl enable myapp.service --now || sudo systemctl restart myapp.service
+          
+          # health check
+          sleep 5
+          curl -f http://localhost/health || exit 1
+          echo "Deploy complete"

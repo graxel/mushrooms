@@ -1,0 +1,22 @@
+[project]
+name = "mushrooms"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "apache-airflow[postgres]>=3.1.7",
+    "dbt-postgres>=1.10.0",
+    "mlflow>=3.10.0",
+    "numpy>=2.4.2",
+    "pandas>=2.3.3",
+    "psycopg2-binary>=2.9.11",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.1",
+]

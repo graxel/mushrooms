@@ -1,0 +1,29 @@
+version: 2
+
+seeds:
+  - name: mushroom_data
+    config:
+      column_types:
+        label: text
+        f01: text
+        f02: text
+        f03: text
+        f04: text
+        f05: text
+        f06: text
+        f07: text
+        f08: text
+        f09: text
+        f10: text
+        f11: text
+        f12: text
+        f13: text
+        f14: text
+        f15: text
+        f16: text
+        f17: text
+        f18: text
+        f19: text
+        f20: text
+        f21: text
+        f22: text

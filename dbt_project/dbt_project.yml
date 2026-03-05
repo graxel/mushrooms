@@ -1,0 +1,29 @@
+name: 'mushrooms'
+version: '1.0.0'
+config-version: 2
+
+profile: 'mushrooms'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  mushrooms:
+    bronze:
+      +materialized: table
+    silver:
+      +materialized: table
+    gold:
+      +materialized: view
+      
+vars:
+  data_size: 2000
