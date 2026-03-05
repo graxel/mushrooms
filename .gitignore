@@ -1,0 +1,90 @@
+# Python-generated files
+__pycache__/
+*.py[co]
+*$py.class
+*.so
+.Python
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Airflow
+logs/
+airflow-webserver.pid
+airflow-scheduler.pid
+airflow-worker.pid
+airflow.pid
+*.db
+*.sqlite
+airflow_home/
+
+# dbt
+dbt_packages/
+dbt_modules/
+target/
+dbt.log
+
+# MLflow
+mlruns/
+mlflow-run-*
+model_artifacts/
+
+# Postgres/SQL dumps
+*.sql.gz
+*.backup
+*.dump
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and temp files
+*.log
+logs/
+tmp/
+temp/
+
+# Grafana
+grafana-data/
+data/grafana/
+
+# Nginx
+nginx/logs/
+nginx/pid/
+
+# Testing
+html-coverage/
+.coverage
+
+# Temp
+grafana_setup.sh
