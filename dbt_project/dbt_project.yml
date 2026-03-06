@@ -20,10 +20,19 @@ models:
   mushrooms:
     raw:
       +materialized: table
+      +schema: raw
     intermediate:
       +materialized: table
+      +schema: intermediate
     consumption:
       +materialized: view
+      +schema: consumption
+
+
+seeds:
+  mushrooms:
+    +schema: raw
+
       
 vars:
   data_size: 2000

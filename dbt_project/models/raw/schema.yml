@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: mushrooms_raw
+  - name: mushroom_data
     description: "Mushroom data staging table: raw mushroom data with unique row IDs"
     columns:
       - name: mushroom_id

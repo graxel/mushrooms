@@ -1,6 +1,6 @@
 WITH raw AS (
     SELECT ROW_NUMBER() OVER (ORDER BY 1) AS mushroom_id, *
-    FROM {{ ref('mushroom_data') }}
+    FROM {{ ref('mushroom_csv') }}
 ),
 final AS (
     SELECT *
