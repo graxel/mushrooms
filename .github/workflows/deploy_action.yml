@@ -3,7 +3,6 @@ on:
   push:
     branches: ['main', 'test', 'cloud']
 jobs:
-
   provision:
     if: github.ref_name == 'cloud'
     runs-on: ubuntu-latest
@@ -39,12 +38,11 @@ jobs:
         echo "pg_db=$(terraform output -raw pg_db)" >> $GITHUB_OUTPUT
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ 
-      github.ref_name == 'main' && 'prod' ||
-      github.ref_name == 'test' && 'qa' ||
-      github.ref_name == 'cloud' && 'cloud' ||
-      'default'
-    }}
+    environment: >-
+      ${{ github.ref_name == 'main' && 'prod' ||
+          github.ref_name == 'test' && 'qa' ||
+          github.ref_name == 'cloud' && 'cloud' ||
+          'default' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
