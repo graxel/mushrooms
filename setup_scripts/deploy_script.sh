@@ -3,10 +3,6 @@ set -e
 
 BRANCH="$GITHUB_REF_NAME"
 
-cd /opt/myapp
-git checkout "$BRANCH"
-git pull origin "$BRANCH"
-
 # write .env to server
 cat > .env << EOF
 PG_HOST=$PG_HOST
