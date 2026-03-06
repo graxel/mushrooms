@@ -1,13 +1,50 @@
 name: Deploy to Server
 on:
   push:
-    branches: ['main', 'test']
+    branches: ['main', 'test', 'cloud']
 jobs:
+
+  provision:
+    if: github.ref_name == 'cloud'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    outputs:
+      server_ip: ${{ steps.terraform.outputs.server_ip }}
+      pg_host: ${{ steps.terraform.outputs.pg_host }}
+      pg_user: ${{ steps.terraform.outputs.pg_user }}
+      pg_pass: ${{ steps.terraform.outputs.pg_pass }}
+      pg_db: ${{ steps.terraform.outputs.pg_db }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init/Plan/Apply
+      id: terraform
+      env:
+        AWS_REGION: us-east-1
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        terraform init
+        terraform plan -var="branch=${{ github.ref_name }}"
+        terraform apply -auto-approve -var="branch=${{ github.ref_name }}"
+        echo "server_ip=$(terraform output -raw server_ip)" >> $GITHUB_OUTPUT
+        echo "pg_host=$(terraform output -raw pg_host)" >> $GITHUB_OUTPUT
+        echo "pg_user=$(terraform output -raw pg_user)" >> $GITHUB_OUTPUT
+        echo "pg_pass=$(terraform output -raw pg_pass)" >> $GITHUB_OUTPUT
+        echo "pg_db=$(terraform output -raw pg_db)" >> $GITHUB_OUTPUT
+
+
+
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ 
       github.ref_name == 'main' && 'prod' ||
-      github.ref_name == 'test' && 'beta' ||
+      github.ref_name == 'test' && 'qa' ||
       github.ref_name == 'cloud' && 'cloud' ||
       'default'
     }}
@@ -17,34 +54,16 @@ jobs:
 
     - name: Deploy to ${{ github.ref_name }}
       uses: appleboy/ssh-action@v1.0.3
+      env:
+        GITHUB_REF_NAME: ${{ github.ref_name }}
+        PG_HOST: ${{ secrets.PG_HOST }}
+        PG_PASS: ${{ secrets.PG_PASS }}
+        PG_PORT: ${{ secrets.PG_PORT }}
+        PG_USER: ${{ secrets.PG_USER }}
       with:
-        host: ${{ secrets.SERVER_IP }}
-        port: ${{ vars.SSH_PORT }}
+        host: ${{ secrets.SERVER_IP_ADDR }}
+        port: ${{ secrets.SERVER_SSH_PORT }}
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /opt/myapp
-          git pull origin ${{ github.ref_name }}
-          
-          # uv
-          if ! command -v uv &> /dev/null; then
-            curl -LsSf https://astral.sh/uv/install.sh | sh
-            . $HOME/.cargo/env
-          fi
-          uv sync
-          
-          # nginx
-          sudo cp nginx.conf /etc/nginx/sites-available/myapp
-          sudo ln -sf /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
-          sudo rm -f /etc/nginx/sites-enabled/default
-          sudo nginx -t && sudo systemctl reload nginx
-          
-          # services
-          sudo cp service_files/*.service /etc/systemd/system/
-          sudo systemctl daemon-reload
-          sudo systemctl enable myapp.service --now || sudo systemctl restart myapp.service
-          
-          # health check
-          sleep 5
-          curl -f http://localhost/health || exit 1
-          echo "Deploy complete"
+        envs: GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER
+        script: bash setup_scripts/deploy_script.sh

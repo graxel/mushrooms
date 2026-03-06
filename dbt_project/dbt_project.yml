@@ -18,11 +18,11 @@ clean-targets:
 
 models:
   mushrooms:
-    bronze:
+    raw:
       +materialized: table
-    silver:
+    intermediate:
       +materialized: table
-    gold:
+    consumption:
       +materialized: view
       
 vars:
