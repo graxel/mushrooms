@@ -3,6 +3,7 @@ on:
   push:
     branches: ['main', 'test', 'cloud']
 jobs:
+
   provision:
     if: github.ref_name == 'cloud'
     runs-on: ubuntu-latest
@@ -36,6 +37,8 @@ jobs:
         echo "pg_user=$(terraform output -raw pg_user)" >> $GITHUB_OUTPUT
         echo "pg_pass=$(terraform output -raw pg_pass)" >> $GITHUB_OUTPUT
         echo "pg_db=$(terraform output -raw pg_db)" >> $GITHUB_OUTPUT
+  
+
   deploy:
     runs-on: ubuntu-latest
     environment: >-
