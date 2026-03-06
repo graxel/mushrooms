@@ -1,11 +1,10 @@
 #!/bin/bash
 set -e
 
-BRANCH="$GITHUB_REF_NAME"
+# for uv
+export PATH="$HOME/.local/bin:$PATH"
 
-cd /opt/myapp
-git checkout "$BRANCH"
-git pull origin "$BRANCH"
+BRANCH="$GITHUB_REF_NAME"
 
 # write .env to server
 cat > .env << EOF
