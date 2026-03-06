@@ -71,4 +71,5 @@ jobs:
           git clone "https://github.com/$GIT_REPO" ~/"$REPO_NAME" && \
           cd ~/"$REPO_NAME" && \
           git checkout "$GITHUB_REF_NAME" && \
-          git pull origin "$GITHUB_REF_NAME"
+          git pull origin "$GITHUB_REF_NAME" && \
+          bash setup_scripts/deploy_script.sh
