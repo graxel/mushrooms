@@ -53,6 +53,7 @@ jobs:
     - name: Deploy to ${{ github.ref_name }}
       uses: appleboy/ssh-action@v1.0.3
       env:
+        REPO_NAME: ${{ github.event.repository.name }}
         GITHUB_REF_NAME: ${{ github.ref_name }}
         PG_HOST: ${{ secrets.PG_HOST }}
         PG_PASS: ${{ secrets.PG_PASS }}
@@ -63,9 +64,7 @@ jobs:
         port: ${{ secrets.SERVER_SSH_PORT }}
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        envs: GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER
+        envs: REPO_NAME,GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER
         script: |
-          whoami
-          pwd
-          ls -la
-        # script: bash setup_scripts/deploy_script.sh
+          cd ~/"$REPO_NAME"
+          bash setup_scripts/deploy_script.sh
