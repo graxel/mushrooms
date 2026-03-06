@@ -15,7 +15,7 @@ PG_USER=$PG_USER
 EOF
 chmod 600 .env
 
-uv sync
+uv sync --no-dev
 # uv run python migrate.py
 
 # sudo cp nginx.conf /etc/nginx/sites-available/myapp
