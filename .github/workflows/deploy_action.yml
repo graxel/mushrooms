@@ -64,5 +64,8 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER
-        script: pwd
+        script: |
+          whoami
+          pwd
+          ls -la
         # script: bash setup_scripts/deploy_script.sh
