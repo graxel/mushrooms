@@ -28,7 +28,7 @@ jobs:
         AWS_REGION: us-east-1
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |-
+      run: |
         terraform init
         terraform plan -var="branch=${{ github.ref_name }}"
         terraform apply -auto-approve -var="branch=${{ github.ref_name }}"
@@ -37,7 +37,6 @@ jobs:
         echo "pg_user=$(terraform output -raw pg_user)" >> $GITHUB_OUTPUT
         echo "pg_pass=$(terraform output -raw pg_pass)" >> $GITHUB_OUTPUT
         echo "pg_db=$(terraform output -raw pg_db)" >> $GITHUB_OUTPUT
-
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ 
