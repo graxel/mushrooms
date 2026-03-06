@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# for uv
+export PATH="$HOME/.local/bin:$PATH"
+
 BRANCH="$GITHUB_REF_NAME"
 
 # write .env to server
