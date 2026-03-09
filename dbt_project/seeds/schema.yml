@@ -1,7 +1,7 @@
 version: 2
 
 seeds:
-  - name: mushroom_data
+  - name: mushroom_csv
     config:
       column_types:
         label: text

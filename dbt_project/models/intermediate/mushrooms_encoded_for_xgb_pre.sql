@@ -1,4 +1,4 @@
-{% set source_table = ref('mushrooms_raw') %}
+{% set source_table = ref('mushroom_data_pre') %}
 {% set encoding_table = ref('categorical_encodings') %}
 {% set categorical_columns = get_categorical_columns(source_table) %}
 

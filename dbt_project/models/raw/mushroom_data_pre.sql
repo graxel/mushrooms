@@ -1,9 +1,9 @@
 WITH raw AS (
     SELECT ROW_NUMBER() OVER (ORDER BY 1) AS mushroom_id, *
-    FROM {{ ref('mushroom_data') }}
+    FROM {{ ref('mushroom_csv') }}
 ),
 final AS (
     SELECT *
     FROM raw
 )
-SELECT * FROM final LIMIT {{ var('data_size') }}
+SELECT * FROM final LIMIT {{ var('pre_deployment_data_size') }}

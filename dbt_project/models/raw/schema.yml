@@ -1,11 +1,23 @@
 version: 2
 
 models:
-  - name: mushrooms_raw
-    description: "Mushroom data staging table: raw mushroom data with unique row IDs"
+  - name: mushroom_data_pre
+    description: "Pre-deployment mushroom data staging table: raw mushroom data with unique row IDs"
     columns:
       - name: mushroom_id
-        description: "Unique monotonically increasing surrogate key (1-N)"
+        description: "Unique monotonically increasing surrogate key (1-n)"
+        tests:
+          - unique
+          - not_null
+      - name: label
+        description: "Edible (e/p) target label"
+        tests:
+          - not_null
+  - name: mushroom_data_post
+    description: "Post-deployment mushroom data staging table: raw mushroom data with unique row IDs"
+    columns:
+      - name: mushroom_id
+        description: "Unique monotonically increasing surrogate key (n-N)"
         tests:
           - unique
           - not_null

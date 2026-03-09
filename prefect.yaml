@@ -1,0 +1,26 @@
+# prefect.yaml
+deployments:
+
+  - name: dev
+    flow_name: mushrooms-inference-pipeline
+    entrypoint: prefect/flow.py:mushrooms_pipeline
+    work_pool:
+      name: mushrooms-dev-pool
+
+  - name: qa
+    flow_name: mushrooms-inference-pipeline
+    entrypoint: prefect/flow.py:mushrooms_pipeline
+    work_pool:
+      name: mushrooms-qa-pool
+
+  - name: prod
+    flow_name: mushrooms-inference-pipeline
+    entrypoint: prefect/flow.py:mushrooms_pipeline
+    work_pool:
+      name: mushrooms-prod-pool
+
+  - name: cloud
+    flow_name: mushrooms-inference-pipeline
+    entrypoint: prefect/flow.py:mushrooms_pipeline
+    work_pool:
+      name: mushrooms-cloud-pool
