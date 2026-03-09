@@ -25,9 +25,22 @@ def run_dbt(select: str) -> None:
     return result
 
 
+def run_dbt_seed() -> None:
+    subprocess.run(
+        ["uv", "run", "dbt", "seed",
+         "--profiles-dir", DBT_PROJECT_DIR,
+         "--project-dir", DBT_PROJECT_DIR,
+         "--target", DBT_TARGET],
+        cwd=DBT_PROJECT_DIR,
+        capture_output=False,
+        check=True,
+    )
+
+
 @task(name="dbt: raw + intermediate")
 def task_dbt_feature_engineering():
     print(f"Running dbt feature engineering (target: {DBT_TARGET})...")
+    run_dbt_seed()
     run_dbt("raw intermediate")
 
 
