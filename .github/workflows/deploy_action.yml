@@ -50,7 +50,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-- name: Deploy to ${{ github.ref_name }}
+    - name: Deploy to ${{ github.ref_name }}
       uses: appleboy/ssh-action@v1.0.3
       env:
         GIT_REPO: ${{ github.repository }}
