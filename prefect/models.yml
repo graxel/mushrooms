@@ -1,0 +1,10 @@
+models:
+  - name: "mushroom-classifier-low-estimators"
+    version: "12"
+    description: "XGBoost mushroom classifier, 3 estimators, v12"
+  - name: "mushroom-classifier-low-estimators"
+    version: "11"
+    description: "XGBoost mushroom classifier, low estimators, v11"
+  - name: "mushroom-classifier-low-estimators"
+    version: "10"
+    description: "XGBoost mushroom classifier, low estimators, v10"

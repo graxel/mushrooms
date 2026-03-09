@@ -6,13 +6,17 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "apache-airflow[postgres]>=3.1.7",
+    "boto3>=1.42.63",
     "dbt-postgres>=1.10.0",
+    "flask-cors>=6.0.2",
     "mlflow>=3.10.0",
     "numpy>=2.4.2",
     "pandas>=2.3.3",
+    "prefect>=3.6.21",
     "psycopg2-binary>=2.9.11",
     "scikit-learn>=1.8.0",
     "scipy>=1.17.1",
+    "xgboost>=3.2.0",
 ]
 
 [dependency-groups]

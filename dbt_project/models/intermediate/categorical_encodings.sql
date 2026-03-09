@@ -1,5 +1,5 @@
 {# Reference bronze table #}
-{% set source_table = ref('mushroom_data') %}
+{% set source_table = ref('mushroom_data_pre') %}
 
 {# Get all categorical columns - exclude any we don't want encoded #}
 {% set categorical_columns = get_categorical_columns(

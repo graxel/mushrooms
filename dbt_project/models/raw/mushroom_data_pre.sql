@@ -6,4 +6,4 @@ final AS (
     SELECT *
     FROM raw
 )
-SELECT * FROM final LIMIT {{ var('data_size') }}
+SELECT * FROM final LIMIT {{ var('pre_deployment_data_size') }}
