@@ -50,7 +50,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Deploy to ${{ github.ref_name }}
+- name: Deploy to ${{ github.ref_name }}
       uses: appleboy/ssh-action@v1.0.3
       env:
         GIT_REPO: ${{ github.repository }}
@@ -60,12 +60,19 @@ jobs:
         PG_PASS: ${{ secrets.PG_PASS }}
         PG_PORT: ${{ secrets.PG_PORT }}
         PG_USER: ${{ secrets.PG_USER }}
+        DBT_TARGET: ${{ secrets.DBT_TARGET }}
+        PG_DB: ${{ secrets.PG_DB }}
+        MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+        MLFLOW_S3_ENDPOINT_URL: ${{ secrets.MLFLOW_S3_ENDPOINT_URL }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       with:
         host: ${{ secrets.SERVER_IP_ADDR }}
         port: ${{ secrets.SERVER_SSH_PORT }}
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        envs: GIT_REPO,REPO_NAME,GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER
+        envs: GIT_REPO,REPO_NAME,GITHUB_REF_NAME,PG_HOST,PG_PASS,PG_PORT,PG_USER,DBT_TARGET,PG_DB,MLFLOW_TRACKING_URI,MLFLOW_S3_ENDPOINT_URL,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,PREFECT_API_URL
         script: |
           cd ~/"$REPO_NAME" || \
           git clone "https://github.com/$GIT_REPO" ~/"$REPO_NAME" && \
